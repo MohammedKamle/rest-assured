@@ -14,9 +14,10 @@ public class uploadBrowserStackApp {
                 .preemptive()
                 .basic("mohammedk1", "spBCpUJaVTnvxxssFtEJ")
                 .multiPart("file", new File("/Users/mohammed/Downloads/presentation-edCastApp-release.apk"))
-                .when()
+        .when()
                 .post("/app-automate/upload")
-                .then().log().all();
+        .then()
+                .log().all();
 
     }
 

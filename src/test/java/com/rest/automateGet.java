@@ -1,5 +1,6 @@
 package com.rest;
 
+import io.restassured.config.LogConfig;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -90,6 +91,41 @@ public class automateGet {
                 );
 
     }
+
+    /*
+    * Explore different log methods here
+    * */
+    @Test
+    public void request_response_logging(){
+        given()
+                .baseUri("https://api.postman.com")
+                .header("X-Api-Key", "PMAK-616285d31f6ba90052628ba4-4cf7a27ad04573552bca07f02e2dcc2c32")
+                .log().all().
+        when()
+                .get("/workspaces").
+        then()
+                .log().all();
+    }
+
+    /*
+    * Below will log the request by blacklisting headers
+    * */
+    @Test
+    public void prevent_logging_sensitive_headers(){
+        given()
+                .baseUri("https://api.postman.com")
+                .header("X-Api-Key", "PMAK-616285d31f6ba90052628ba4-4cf7a27ad04573552bca07f02e2dcc2c32")
+                .config(config.logConfig(LogConfig.logConfig().blacklistHeader("X-Api-Key"))).
+                log().all().
+        when()
+                .get("/workspaces").
+        then()
+                .assertThat()
+                .statusCode(200);
+    }
+
+
+
 
 
 }

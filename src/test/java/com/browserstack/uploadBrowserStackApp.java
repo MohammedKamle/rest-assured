@@ -1,4 +1,4 @@
-package com.rest;
+package com.browserstack;
 
 import java.io.File;
 

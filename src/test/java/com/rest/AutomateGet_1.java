@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.*;
 * http://jsonpath.com/
 *
 * */
-public class automateGet {
+public class AutomateGet_1 {
 
     @Test
     public void validate_get_status_code() {

@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-public class AutomateHeaders {
+public class AutomateHeaders_2 {
 
     @Test
     public void validate_header1(){

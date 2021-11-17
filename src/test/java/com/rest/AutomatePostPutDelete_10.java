@@ -33,7 +33,7 @@ public class AutomatePostPutDelete_10 {
         RestAssured.responseSpecification = responseSpecBuilder.build();
     }
 
-    @Test
+    @Test(enabled = false)
     public void validate_post_request(){
         String payload = "{\n" +
                 "    \"workspace\": {\n" +
@@ -54,7 +54,7 @@ public class AutomatePostPutDelete_10 {
                         "workspace.id", matchesRegex("^[a-z0-9-]{36}$"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void validate_post_with_non_bdd(){
         String payload = "{\n" +
                 "    \"workspace\": {\n" +
@@ -71,7 +71,7 @@ public class AutomatePostPutDelete_10 {
         assertThat(response.path("workspace.id"),matchesRegex("^[a-z0-9-]{36}$") );
     }
 
-    @Test
+    @Test(enabled = false)
     public void validate_put_request_bdd(){
         String workspaceId = "f1aa931f-e7a7-41f8-875c-0f51c8205d69";
         String payload = "{\n" +
@@ -95,7 +95,7 @@ public class AutomatePostPutDelete_10 {
                         "workspace.id", equalTo(workspaceId));
     }
 
-    @Test()
+    @Test(enabled = false)
     public void validate_delete_request(){
         String workspaceId = "a60c3880-4c28-4389-9064-c35f2faef0a3";
         given()

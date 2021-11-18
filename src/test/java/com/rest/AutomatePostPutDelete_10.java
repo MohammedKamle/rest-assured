@@ -9,6 +9,10 @@ import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.with;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -51,6 +55,45 @@ public class AutomatePostPutDelete_10 {
                 .log().body()
                 .assertThat()
                 .body("workspace.name", equalTo("MdkWorkspace_1"),
+                        "workspace.id", matchesRegex("^[a-z0-9-]{36}$"));
+    }
+
+    @Test(enabled = false)
+    public void validate_post_request_with_payload_from_external_file(){
+        File file = new File("src/main/resources/CreateWorkspacePayload.json");
+        given()
+                .body(file)
+        .when()
+                .post("/workspaces")
+        .then()
+                .log().body()
+                .assertThat()
+                .body("workspace.name", equalTo("zee 25"),
+                        "workspace.id", matchesRegex("^[a-z0-9-]{36}$"));
+    }
+
+    @Test()
+    public void validate_post_request_with_payload_using_map(){
+        Map<String, Object> masterObject = new HashMap<>();
+
+        Map<String, String> nestedObject = new HashMap<>();
+        nestedObject.put("name", "ZEE");
+        nestedObject.put("type", "personal");
+        nestedObject.put("description", "This is created using API from Postman");
+
+        /*
+        * VVV IMP
+        * For the below process to work, we have added jackson library in pom
+        * */
+        masterObject.put("workspace", nestedObject);
+        given()
+                .body(masterObject)
+        .when()
+                .post("/workspaces")
+        .then()
+                .log().body()
+                .assertThat()
+                .body("workspace.name", equalTo("ZEE"),
                         "workspace.id", matchesRegex("^[a-z0-9-]{36}$"));
     }
 

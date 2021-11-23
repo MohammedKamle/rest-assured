@@ -72,7 +72,7 @@ public class AutomatePostPutDelete_10 {
                         "workspace.id", matchesRegex("^[a-z0-9-]{36}$"));
     }
 
-    @Test()
+    @Test(enabled = false)
     public void validate_post_request_with_payload_using_map(){
         Map<String, Object> masterObject = new HashMap<>();
 

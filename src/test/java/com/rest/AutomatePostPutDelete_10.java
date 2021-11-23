@@ -74,6 +74,7 @@ public class AutomatePostPutDelete_10 {
 
     @Test(enabled = false)
     public void validate_post_request_with_payload_using_map(){
+        // representing json using map
         Map<String, Object> masterObject = new HashMap<>();
 
         Map<String, String> nestedObject = new HashMap<>();

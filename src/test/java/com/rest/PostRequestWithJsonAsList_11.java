@@ -44,6 +44,7 @@ public class PostRequestWithJsonAsList_11 {
 
     @Test()
     public void validate_post_request_payload_json_array_as_list(){
+        // here we are representing json using maps and lists
         Map<String, String> obj1 = new HashMap<>();
         obj1.put("id", "5001");
         obj1.put("type","None");

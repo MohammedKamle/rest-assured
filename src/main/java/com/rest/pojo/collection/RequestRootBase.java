@@ -2,18 +2,16 @@ package com.rest.pojo.collection;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Folder {
+public abstract class RequestRootBase {
     private String name;
-    private List<RequestRoot> item;
 
-    public Folder() {
+    public RequestRootBase() {
     }
 
-    public Folder(String name, List<RequestRoot> item) {
+    public RequestRootBase(String name) {
         this.name = name;
-        this.item = item;
+
     }
 
     public String getName() {
@@ -24,11 +22,4 @@ public class Folder {
         this.name = name;
     }
 
-    public List<RequestRoot> getItem() {
-        return item;
-    }
-
-    public void setItem(List<RequestRoot> item) {
-        this.item = item;
-    }
 }

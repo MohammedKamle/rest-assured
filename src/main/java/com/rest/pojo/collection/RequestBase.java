@@ -1,33 +1,23 @@
 package com.rest.pojo.collection;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class Request {
-    // url field we are passing as string while creating a new collection, but when we request for the
-    // newly created collection, it is giving url in the form of object
-    private Object url;
+import java.util.List;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class RequestBase {
     private String method;
     private List<Header> header;
     private Body body;
     private String description;
 
-    public Request() {
+    public RequestBase() {
     }
 
-    public Request(Object url, String method, List<Header> header, Body body, String description) {
-        this.url = url;
+    public RequestBase(String method, List<Header> header, Body body, String description) {
         this.method = method;
         this.header = header;
         this.body = body;
         this.description = description;
-    }
-
-    public Object getUrl() {
-        return url;
-    }
-
-    public void setUrl(Object url) {
-        this.url = url;
     }
 
     public String getMethod() {

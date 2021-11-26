@@ -15,17 +15,16 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.skyscreamer.jsonassert.ValueMatcher;
 import org.skyscreamer.jsonassert.comparator.CustomComparator;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.responseSpecification;
-//import static org.hamcrest.MatcherAssert.assertThat;
-//import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
-public class ComplexPOJOTest_22 {
+public class Test {
 
     @BeforeClass
     public void beforeClass(){
@@ -43,7 +42,8 @@ public class ComplexPOJOTest_22 {
         RestAssured.responseSpecification = responseSpecBuilder.build();
     }
 
-    @Test
+
+    @org.testng.annotations.Test
     public void complex_pojo_create_collection() throws JsonProcessingException, JSONException {
         Header header = new Header("Content-Type", "application/json");
         List<Header> headerList = new ArrayList<>();
@@ -70,60 +70,64 @@ public class ComplexPOJOTest_22 {
         CollectionRootRequest collectionRoot = new CollectionRootRequest(collection);
         // Getting the uid of newly after creating a collection
         String collectionUid =
-        given()
-                .body(collectionRoot)
-        .when()
-                .post("/collections")
-        .then()
-                .spec(responseSpecification)
-                .extract()
-                .path("collection.uid");
+                given()
+                        .body(collectionRoot)
+                        .when()
+                        .post("/collections")
+                        .then()
+                        .spec(responseSpecification)
+                        .extract()
+                        .path("collection.uid");
 
         // Getting
         CollectionRootResponse deserializedCollectionRoot =
-        given()
-                .pathParam("collectionUid", collectionUid)
-        .when()
-                .get("/collections/{collectionUid}")
-        .then()
-                .spec(responseSpecification)
-                .extract()
-                .response()
-                .as(CollectionRootResponse.class);
+                given()
+                        .pathParam("collectionUid", collectionUid)
+                        .when()
+                        .get("/collections/{collectionUid}")
+                        .then()
+                        .spec(responseSpecification)
+                        .extract()
+                        .response()
+                        .as(CollectionRootResponse.class);
 
         // Serializing
         ObjectMapper objectMapper = new ObjectMapper();
         String collectionRootString = objectMapper.writeValueAsString(collectionRoot);
         String deserializedCollectionRootString = objectMapper.writeValueAsString(deserializedCollectionRoot);
 
-       // assertion
-        JSONAssert.assertEquals(collectionRootString, deserializedCollectionRootString,
-                new CustomComparator(JSONCompareMode.LENIENT,
-                        new Customization("collection.item[*].item[*].request.url", new ValueMatcher<Object>() {
-                            public boolean equal(Object o1, Object o2) {
-                                return true;
-                            }
-                        })));
+        // assertion
+//        JSONAssert.assertEquals(collectionRootString, deserializedCollectionRootString,
+//                new CustomComparator(JSONCompareMode.LENIENT,
+//                        new Customization("collection.item[*].item[*].request.url", new ValueMatcher<Object>() {
+//                            public boolean equal(Object o1, Object o2) {
+//                                return true;
+//                            }
+//                        })));
 
-//        List<String> urlRequestList = new ArrayList<>();
-//        List<String> urlResponseList = new ArrayList<>();
-//
-//        for(RequestRootRequest requestRootRequest: requestRootList){
-//            urlRequestList.add(requestRootRequest.getRequest().getUrl());
-//        }
-//
-//        List<FolderResponse> folderResponseList = deserializedCollectionRoot.getCollection().getItem();
-//        for (FolderResponse folderResponse: folderResponseList){
-//            List<RequestRootResponse> requestRootResponseList = folderResponse.getItem();
-//            for (RequestRootResponse requestRootResponse: requestRootResponseList){
-//                URL url = requestRootResponse.getRequest().getUrl();
-//                urlResponseList.add(url.getRaw());
-//            }
-//        }
-//
-//        assertThat(urlResponseList, containsInAnyOrder(urlRequestList));
+        // Alternative assertion
+        List<String> urlRequestList = new ArrayList<>();
+        List<String> urlResponseList = new ArrayList<>();
+
+        for(RequestRootRequest requestRootRequest: requestRootList){
+            System.out.println("URL from request :: "+requestRootRequest.getRequest().getUrl());
+            urlRequestList.add(requestRootRequest.getRequest().getUrl());
+        }
+
+        List<FolderResponse> folderResponseList = deserializedCollectionRoot.getCollection().getItem();
+        for (FolderResponse folderResponse: folderResponseList){
+            List<RequestRootResponse> requestRootResponseList = folderResponse.getItem();
+            for (RequestRootResponse requestRootResponse: requestRootResponseList){
+                URL url = requestRootResponse.getRequest().getUrl();
+                System.out.println("URL from response :: "+ url.getRaw());
+                urlResponseList.add(url.getRaw());
+            }
+        }
+
+        assertThat(urlResponseList, containsInAnyOrder(urlRequestList.toArray()));
 
 
 
     }
+
 }

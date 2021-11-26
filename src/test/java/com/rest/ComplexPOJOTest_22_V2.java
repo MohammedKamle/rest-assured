@@ -24,7 +24,7 @@ import static io.restassured.RestAssured.responseSpecification;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 
-public class Test {
+public class ComplexPOJOTest_22_V2 {
 
     @BeforeClass
     public void beforeClass(){
